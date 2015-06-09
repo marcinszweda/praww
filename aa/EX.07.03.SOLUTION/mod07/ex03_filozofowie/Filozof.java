@@ -1,8 +1,6 @@
-package com.mycompany.prawwn.zad72;
+package mod07.ex03_filozofowie;
 
-import static com.mycompany.prawwn.zad72.Semafor.LICZBA_FILOZOFOW;
-import static com.mycompany.prawwn.zad72.Semafor.widelec;
-
+import static mod07.ex03_filozofowie.Semafor.*;
 
 import java.util.Random;
 
@@ -16,7 +14,7 @@ public class Filozof implements Runnable {
 	public Filozof(int i) {
 		this.i = i;
 		LEWY = i;
-		PRAWY = (i + 1) % LICZBA_FILOZOFOW;
+		PRAWY = (i + 1) % 5;
 	}
 
 	@Override
@@ -31,7 +29,7 @@ public class Filozof implements Runnable {
 
 	private void je() throws InterruptedException {
 		System.out.println(this + " je");
-		Thread.sleep(r.nextInt(10));
+		Thread.sleep(r.nextInt(1000));
 		System.out.println(this + " skończył jeść po raz " + ++obzarstwo);
 	}
 
@@ -40,11 +38,13 @@ public class Filozof implements Runnable {
 		while (true) {
 			try {
 				mysli();
+				lokaj.acquire();
 				widelec[LEWY].acquire();
 				widelec[PRAWY].acquire();
 				je();
 				widelec[LEWY].release();
 				widelec[PRAWY].release();
+				lokaj.release();
 			} catch (InterruptedException e) {
 				System.out.println("Wystąpił wyjątek " + e.getClass().getName());
 				return;

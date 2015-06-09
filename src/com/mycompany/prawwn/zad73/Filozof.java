@@ -1,7 +1,9 @@
-package com.mycompany.prawwn.zad72;
+package com.mycompany.prawwn.zad73;
+
 
 import static com.mycompany.prawwn.zad72.Semafor.LICZBA_FILOZOFOW;
 import static com.mycompany.prawwn.zad72.Semafor.widelec;
+import static com.mycompany.prawwn.zad73.Semafor.lokaj;
 
 
 import java.util.Random;
@@ -40,11 +42,13 @@ public class Filozof implements Runnable {
 		while (true) {
 			try {
 				mysli();
+                                lokaj.acquire();
 				widelec[LEWY].acquire();
 				widelec[PRAWY].acquire();
 				je();
 				widelec[LEWY].release();
 				widelec[PRAWY].release();
+                                lokaj.release();
 			} catch (InterruptedException e) {
 				System.out.println("Wystąpił wyjątek " + e.getClass().getName());
 				return;
