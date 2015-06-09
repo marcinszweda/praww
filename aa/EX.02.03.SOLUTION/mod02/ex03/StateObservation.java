@@ -8,7 +8,7 @@ public class StateObservation {
 		observer.setDaemon(true);
 		observer.start();
 		try {
-			Thread.sleep(200); // uspienie ma tylkoe wplyw na watek w ktorym jest wywolane uspienie
+			Thread.sleep(200);
 			observed.start(); // stan RUNNABLE
 			while (observed.isAlive()) {
 				// aktywna petla
